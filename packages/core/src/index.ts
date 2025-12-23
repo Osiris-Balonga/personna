@@ -25,4 +25,7 @@ export {
   DEFAULT_CONFIG,
 } from './types';
 
+// Random
+export { SeededRandom } from './random';
+
 export const VERSION = '0.1.0';
