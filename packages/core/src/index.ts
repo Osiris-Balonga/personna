@@ -49,6 +49,9 @@ export { NameRegistry, generateName } from './names';
 // Locales
 export { LocaleRegistry } from './locales';
 
+// Avatars
+export { AvatarPicker, avatarPicker, buildAvatarUrl } from './avatars';
+
 // Generators
 export {
   generateAge,
