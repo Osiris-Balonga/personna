@@ -28,4 +28,7 @@ export {
 // Random
 export { SeededRandom } from './random';
 
+// Distribution
+export { DistributionResolver } from './distribution';
+
 export const VERSION = '0.1.0';

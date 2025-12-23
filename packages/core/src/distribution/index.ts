@@ -1,0 +1,1 @@
+export { DistributionResolver } from './resolver';
