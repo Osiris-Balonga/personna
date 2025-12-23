@@ -1,4 +1,3 @@
-// Testing utilities
-// Placeholder - will be implemented in subsequent tasks
-
-export {};
+export { MockAvatarProvider } from './mock-avatar-provider';
+export { isValidUser, testSeed } from './helpers';
+export { resetAllRegistries, reregisterDefaultLocales } from './registry-helpers';

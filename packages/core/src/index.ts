@@ -42,6 +42,9 @@ export { LocaleRegistry } from './locales';
 export { AvatarPicker, buildAvatarUrl } from './avatars';
 export { UserGenerator } from './generators';
 
+// Testing utilities
+export { MockAvatarProvider, isValidUser, testSeed, resetAllRegistries, reregisterDefaultLocales } from './testing';
+
 // Version
 export const VERSION = '0.1.0';
 
