@@ -28,7 +28,7 @@ export interface FactoryConfig {
 }
 
 export const DEFAULT_CONFIG: FactoryConfig = {
-  cdnBaseUrl: 'https://cdn.jsdelivr.net/gh/anthropics/personna-assets@v1',
+  cdnBaseUrl: 'https://cdn.jsdelivr.net/gh/Osiris-Balonga/personna-assets@v1',
   defaultAvatarStyle: 'realistic',
   onMissingAvatar: 'fallback',
   onInvalidOption: 'ignore',

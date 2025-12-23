@@ -7,25 +7,25 @@ describe('buildAvatarUrl', () => {
   it('should build correct URL for realistic avatar', () => {
     const url = buildAvatarUrl({
       style: 'realistic',
-      ethnicity: 'west_africa',
+      ethnicity: 'black',
       gender: 'female',
       ageGroup: 'young_adult',
       variation: '001',
     });
 
-    expect(url).toContain('/avatars/realistic/west_africa/female/young_adult/001.webp');
+    expect(url).toContain('/avatars/realistic/female/black/young_adult/001.webp');
   });
 
   it('should build correct URL for cartoon avatar', () => {
     const url = buildAvatarUrl({
       style: 'cartoon',
-      ethnicity: 'east_asia',
+      ethnicity: 'asian',
       gender: 'male',
       ageGroup: 'child',
       variation: '002',
     });
 
-    expect(url).toContain('/avatars/cartoon/east_asia/male/child/002.svg');
+    expect(url).toContain('/avatars/cartoon/male/asian/child/002.svg');
   });
 
   it('should use custom base URL', () => {
@@ -40,7 +40,7 @@ describe('buildAvatarUrl', () => {
       'https://custom.cdn.com'
     );
 
-    expect(url).toBe('https://custom.cdn.com/avatars/realistic/mixed/female/adult/001.webp');
+    expect(url).toBe('https://custom.cdn.com/avatars/realistic/female/mixed/adult/001.webp');
   });
 });
 
@@ -52,7 +52,7 @@ describe('AvatarPicker', () => {
     const criteria: AvatarCriteria = {
       gender: 'male',
       ageGroup: 'adult',
-      ethnicity: 'western_europe',
+      ethnicity: 'white',
       style: 'realistic',
     };
 
@@ -60,7 +60,7 @@ describe('AvatarPicker', () => {
 
     expect(result).not.toBeNull();
     expect(result!.style).toBe('realistic');
-    expect(result!.url).toContain('/western_europe/male/adult/');
+    expect(result!.url).toContain('/male/white/adult/');
     expect(result!.url).toContain('.webp');
   });
 
@@ -68,7 +68,7 @@ describe('AvatarPicker', () => {
     const criteria: AvatarCriteria = {
       gender: 'female',
       ageGroup: 'teen',
-      ethnicity: 'east_africa',
+      ethnicity: 'black',
       style: 'cartoon',
     };
 
@@ -87,12 +87,12 @@ describe('AvatarPicker', () => {
     const criteria: AvatarCriteria = {
       gender: 'male',
       ageGroup: 'senior',
-      ethnicity: 'south_asia',
+      ethnicity: 'indian',
       style: 'realistic',
     };
 
     const result = picker.pick(criteria, random);
 
-    expect(result!.id).toMatch(/south_asia_male_senior_00[12]/);
+    expect(result!.id).toMatch(/indian_male_senior_00[12]/);
   });
 });

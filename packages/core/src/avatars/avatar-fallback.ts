@@ -1,23 +1,12 @@
 import type { AgeGroup, Ethnicity } from '../types';
 
 /**
- * Get parent/similar region for fallback
+ * Get fallback ethnicity when avatar is not available
  */
 export function getParentRegion(ethnicity: Ethnicity): Ethnicity {
-  const mapping: Partial<Record<Ethnicity, Ethnicity>> = {
-    west_africa: 'mixed',
-    east_africa: 'mixed',
-    central_africa: 'mixed',
-    southern_africa: 'mixed',
-    north_africa: 'middle_east',
-    western_europe: 'mixed',
-    eastern_europe: 'western_europe',
-    middle_east: 'mixed',
-    south_asia: 'mixed',
-    east_asia: 'mixed',
-    latin_america: 'mixed',
-  };
-  return mapping[ethnicity] ?? 'mixed';
+  // All ethnicities fall back to mixed
+  if (ethnicity === 'mixed') return 'mixed';
+  return 'mixed';
 }
 
 /**

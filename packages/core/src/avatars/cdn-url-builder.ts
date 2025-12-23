@@ -19,5 +19,5 @@ export function buildAvatarUrl(
   const { style, ethnicity, gender, ageGroup, variation } = params;
   const ext = style === 'realistic' ? 'webp' : 'svg';
 
-  return `${baseUrl}/avatars/${style}/${ethnicity}/${gender}/${ageGroup}/${variation}.${ext}`;
+  return `${baseUrl}/avatars/${style}/${gender}/${ethnicity}/${ageGroup}/${variation}.${ext}`;
 }

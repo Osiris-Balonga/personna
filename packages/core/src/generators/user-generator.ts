@@ -65,7 +65,7 @@ export class UserGenerator {
     // Step 2: Infer ethnicity if not provided
     const ethnicity: Ethnicity = options.ethnicity
       ? this.resolver.resolve(options.ethnicity, 'mixed')
-      : inferEthnicityFromNationality(nationality);
+      : inferEthnicityFromNationality(nationality, this.random);
 
     // Step 3: Generate individual fields
     const id = this.random.uuid();

@@ -47,11 +47,13 @@ describe('UserGenerator', () => {
     const random = new SeededRandom('infer-ethnicity');
     const generator = new UserGenerator(random);
 
+    // Homogeneous country - always black
     const snUser = generator.generate({ nationality: 'SN' });
-    expect(snUser.ethnicity).toBe('west_africa');
+    expect(snUser.ethnicity).toBe('black');
 
+    // Diverse country - one of the weighted options
     const frUser = generator.generate({ nationality: 'FR' });
-    expect(frUser.ethnicity).toBe('western_europe');
+    expect(['white', 'black', 'arab', 'mixed']).toContain(frUser.ethnicity);
   });
 
   it('should use explicit ethnicity over inferred', () => {
@@ -59,11 +61,11 @@ describe('UserGenerator', () => {
     const generator = new UserGenerator(random);
     const user = generator.generate({
       nationality: 'FR',
-      ethnicity: 'east_asia',
+      ethnicity: 'asian',
     });
 
     expect(user.nationality).toBe('FR');
-    expect(user.ethnicity).toBe('east_asia');
+    expect(user.ethnicity).toBe('asian');
   });
 
   it('should handle array options', () => {

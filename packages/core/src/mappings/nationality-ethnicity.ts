@@ -1,186 +1,327 @@
-import type { Ethnicity } from '../types';
+import type { Ethnicity, WeightedOption } from '../types';
+import type { SeededRandom } from '../random';
+
+type EthnicityMapping = Ethnicity | WeightedOption<Ethnicity>[];
 
 /**
- * Map ISO 3166-1 alpha-2 country codes to default ethnicities
- * This is an approximation for visual representation
+ * Map ISO 3166-1 alpha-2 country codes to ethnicities
+ * Single value = homogeneous country
+ * Weighted array = diverse country with demographic distribution
  */
-export const NATIONALITY_ETHNICITY_MAP: Record<string, Ethnicity> = {
-  // West Africa
-  SN: 'west_africa',
-  CI: 'west_africa',
-  NG: 'west_africa',
-  GH: 'west_africa',
-  ML: 'west_africa',
-  BF: 'west_africa',
-  NE: 'west_africa',
-  TG: 'west_africa',
-  BJ: 'west_africa',
-  GM: 'west_africa',
-  GN: 'west_africa',
-  LR: 'west_africa',
-  SL: 'west_africa',
+export const NATIONALITY_ETHNICITY_MAP: Record<string, EthnicityMapping> = {
+  // Africa (Sub-Saharan) - homogeneous
+  SN: 'black',
+  CI: 'black',
+  NG: 'black',
+  GH: 'black',
+  ML: 'black',
+  BF: 'black',
+  NE: 'black',
+  TG: 'black',
+  BJ: 'black',
+  GM: 'black',
+  GN: 'black',
+  LR: 'black',
+  SL: 'black',
+  KE: 'black',
+  UG: 'black',
+  TZ: 'black',
+  ET: 'black',
+  RW: 'black',
+  BI: 'black',
+  SO: 'black',
+  ER: 'black',
+  DJ: 'black',
+  CG: 'black',
+  CD: 'black',
+  CM: 'black',
+  GA: 'black',
+  CF: 'black',
+  TD: 'black',
+  GQ: 'black',
+  BW: 'black',
+  NA: 'black',
+  ZW: 'black',
+  MZ: 'black',
+  ZM: 'black',
+  MW: 'black',
+  AO: 'black',
+  LS: 'black',
+  SZ: 'black',
 
-  // East Africa
-  KE: 'east_africa',
-  UG: 'east_africa',
-  TZ: 'east_africa',
-  ET: 'east_africa',
-  RW: 'east_africa',
-  BI: 'east_africa',
-  SO: 'east_africa',
-  ER: 'east_africa',
-  DJ: 'east_africa',
+  // South Africa - diverse
+  ZA: [
+    { value: 'black', weight: 80 },
+    { value: 'white', weight: 8 },
+    { value: 'indian', weight: 3 },
+    { value: 'mixed', weight: 9 },
+  ],
 
-  // Central Africa
-  CG: 'central_africa',
-  CD: 'central_africa',
-  CM: 'central_africa',
-  GA: 'central_africa',
-  CF: 'central_africa',
-  TD: 'central_africa',
-  GQ: 'central_africa',
+  // Arab (North Africa + Middle East) - mostly homogeneous
+  MA: 'arab',
+  DZ: 'arab',
+  TN: 'arab',
+  EG: 'arab',
+  LY: 'arab',
+  SD: 'arab',
+  MR: 'arab',
+  SA: 'arab',
+  JO: 'arab',
+  LB: 'arab',
+  IQ: 'arab',
+  SY: 'arab',
+  KW: 'arab',
+  QA: 'arab',
+  BH: 'arab',
+  OM: 'arab',
+  YE: 'arab',
+  IR: 'arab',
+  PS: 'arab',
 
-  // Southern Africa
-  ZA: 'southern_africa',
-  BW: 'southern_africa',
-  NA: 'southern_africa',
-  ZW: 'southern_africa',
-  MZ: 'southern_africa',
-  ZM: 'southern_africa',
-  MW: 'southern_africa',
-  AO: 'southern_africa',
-  LS: 'southern_africa',
-  SZ: 'southern_africa',
+  // UAE - diverse expat population
+  AE: [
+    { value: 'arab', weight: 20 },
+    { value: 'indian', weight: 40 },
+    { value: 'asian', weight: 25 },
+    { value: 'white', weight: 10 },
+    { value: 'black', weight: 5 },
+  ],
 
-  // North Africa
-  MA: 'north_africa',
-  DZ: 'north_africa',
-  TN: 'north_africa',
-  EG: 'north_africa',
-  LY: 'north_africa',
-  SD: 'north_africa',
-  MR: 'north_africa',
+  // Turkey & Israel - diverse
+  TR: [
+    { value: 'arab', weight: 80 },
+    { value: 'white', weight: 15 },
+    { value: 'mixed', weight: 5 },
+  ],
+  IL: [
+    { value: 'arab', weight: 20 },
+    { value: 'white', weight: 70 },
+    { value: 'black', weight: 5 },
+    { value: 'mixed', weight: 5 },
+  ],
 
-  // Western Europe
-  FR: 'western_europe',
-  DE: 'western_europe',
-  ES: 'western_europe',
-  IT: 'western_europe',
-  GB: 'western_europe',
-  UK: 'western_europe',
-  PT: 'western_europe',
-  BE: 'western_europe',
-  NL: 'western_europe',
-  CH: 'western_europe',
-  AT: 'western_europe',
-  IE: 'western_europe',
-  LU: 'western_europe',
+  // Western Europe - diverse
+  FR: [
+    { value: 'white', weight: 70 },
+    { value: 'black', weight: 12 },
+    { value: 'arab', weight: 10 },
+    { value: 'mixed', weight: 8 },
+  ],
+  DE: [
+    { value: 'white', weight: 80 },
+    { value: 'arab', weight: 8 },
+    { value: 'black', weight: 4 },
+    { value: 'asian', weight: 4 },
+    { value: 'mixed', weight: 4 },
+  ],
+  GB: [
+    { value: 'white', weight: 82 },
+    { value: 'indian', weight: 6 },
+    { value: 'black', weight: 4 },
+    { value: 'asian', weight: 4 },
+    { value: 'mixed', weight: 4 },
+  ],
+  UK: [
+    { value: 'white', weight: 82 },
+    { value: 'indian', weight: 6 },
+    { value: 'black', weight: 4 },
+    { value: 'asian', weight: 4 },
+    { value: 'mixed', weight: 4 },
+  ],
+  NL: [
+    { value: 'white', weight: 77 },
+    { value: 'arab', weight: 6 },
+    { value: 'black', weight: 5 },
+    { value: 'indian', weight: 4 },
+    { value: 'asian', weight: 4 },
+    { value: 'mixed', weight: 4 },
+  ],
+  BE: [
+    { value: 'white', weight: 75 },
+    { value: 'arab', weight: 10 },
+    { value: 'black', weight: 8 },
+    { value: 'mixed', weight: 7 },
+  ],
 
-  // Eastern Europe
-  PL: 'eastern_europe',
-  RU: 'eastern_europe',
-  UA: 'eastern_europe',
-  CZ: 'eastern_europe',
-  RO: 'eastern_europe',
-  HU: 'eastern_europe',
-  SK: 'eastern_europe',
-  BG: 'eastern_europe',
-  RS: 'eastern_europe',
-  HR: 'eastern_europe',
-  BA: 'eastern_europe',
-  SI: 'eastern_europe',
-  MK: 'eastern_europe',
-  AL: 'eastern_europe',
-  MD: 'eastern_europe',
-  BY: 'eastern_europe',
+  // Less diverse European countries
+  ES: 'white',
+  IT: 'white',
+  PT: 'white',
+  CH: 'white',
+  AT: 'white',
+  IE: 'white',
+  LU: 'white',
+  PL: 'white',
+  RU: 'white',
+  UA: 'white',
+  CZ: 'white',
+  RO: 'white',
+  HU: 'white',
+  SK: 'white',
+  BG: 'white',
+  RS: 'white',
+  HR: 'white',
+  BA: 'white',
+  SI: 'white',
+  MK: 'white',
+  AL: 'white',
+  MD: 'white',
+  BY: 'white',
 
-  // Middle East
-  SA: 'middle_east',
-  AE: 'middle_east',
-  JO: 'middle_east',
-  LB: 'middle_east',
-  IQ: 'middle_east',
-  SY: 'middle_east',
-  KW: 'middle_east',
-  QA: 'middle_east',
-  BH: 'middle_east',
-  OM: 'middle_east',
-  YE: 'middle_east',
-  IR: 'middle_east',
-  TR: 'middle_east',
-  IL: 'middle_east',
-  PS: 'middle_east',
+  // South Asia - mostly homogeneous
+  IN: 'indian',
+  PK: 'indian',
+  BD: 'indian',
+  LK: 'indian',
+  NP: 'indian',
+  AF: 'indian',
+  MV: 'indian',
+  BT: 'indian',
 
-  // South Asia
-  IN: 'south_asia',
-  PK: 'south_asia',
-  BD: 'south_asia',
-  LK: 'south_asia',
-  NP: 'south_asia',
-  AF: 'south_asia',
-  MV: 'south_asia',
-  BT: 'south_asia',
+  // East & Southeast Asia - mostly homogeneous
+  CN: 'asian',
+  JP: 'asian',
+  KR: 'asian',
+  VN: 'asian',
+  TH: 'asian',
+  PH: 'asian',
+  MM: 'asian',
+  KH: 'asian',
+  LA: 'asian',
+  TW: 'asian',
+  MN: 'asian',
 
-  // East Asia
-  CN: 'east_asia',
-  JP: 'east_asia',
-  KR: 'east_asia',
-  VN: 'east_asia',
-  TH: 'east_asia',
-  PH: 'east_asia',
-  MY: 'east_asia',
-  ID: 'east_asia',
-  SG: 'east_asia',
-  MM: 'east_asia',
-  KH: 'east_asia',
-  LA: 'east_asia',
-  TW: 'east_asia',
-  HK: 'east_asia',
-  MN: 'east_asia',
+  // Southeast Asia - diverse
+  MY: [
+    { value: 'asian', weight: 70 },
+    { value: 'indian', weight: 20 },
+    { value: 'mixed', weight: 10 },
+  ],
+  SG: [
+    { value: 'asian', weight: 75 },
+    { value: 'indian', weight: 10 },
+    { value: 'white', weight: 5 },
+    { value: 'mixed', weight: 10 },
+  ],
+  ID: 'asian',
+  HK: 'asian',
 
-  // Latin America
-  BR: 'latin_america',
-  MX: 'latin_america',
-  AR: 'latin_america',
-  CO: 'latin_america',
-  CL: 'latin_america',
-  PE: 'latin_america',
-  VE: 'latin_america',
-  EC: 'latin_america',
-  BO: 'latin_america',
-  PY: 'latin_america',
-  UY: 'latin_america',
-  CR: 'latin_america',
-  PA: 'latin_america',
-  CU: 'latin_america',
-  DO: 'latin_america',
-  GT: 'latin_america',
-  HN: 'latin_america',
-  SV: 'latin_america',
-  NI: 'latin_america',
-  PR: 'latin_america',
+  // Latin America - diverse
+  BR: [
+    { value: 'latino', weight: 45 },
+    { value: 'white', weight: 25 },
+    { value: 'black', weight: 15 },
+    { value: 'mixed', weight: 15 },
+  ],
+  MX: 'latino',
+  AR: [
+    { value: 'white', weight: 70 },
+    { value: 'latino', weight: 25 },
+    { value: 'mixed', weight: 5 },
+  ],
+  CO: 'latino',
+  CL: 'latino',
+  PE: 'latino',
+  VE: 'latino',
+  EC: 'latino',
+  BO: 'latino',
+  PY: 'latino',
+  UY: 'latino',
+  CR: 'latino',
+  PA: 'latino',
+  CU: [
+    { value: 'latino', weight: 50 },
+    { value: 'black', weight: 25 },
+    { value: 'mixed', weight: 25 },
+  ],
+  DO: [
+    { value: 'latino', weight: 40 },
+    { value: 'black', weight: 20 },
+    { value: 'mixed', weight: 40 },
+  ],
+  GT: 'latino',
+  HN: 'latino',
+  SV: 'latino',
+  NI: 'latino',
+  PR: 'latino',
 
-  // Mixed (multicultural countries)
-  US: 'mixed',
-  CA: 'mixed',
-  AU: 'mixed',
-  NZ: 'mixed',
+  // Multicultural countries - very diverse
+  US: [
+    { value: 'white', weight: 58 },
+    { value: 'latino', weight: 19 },
+    { value: 'black', weight: 12 },
+    { value: 'asian', weight: 6 },
+    { value: 'mixed', weight: 5 },
+  ],
+  CA: [
+    { value: 'white', weight: 70 },
+    { value: 'asian', weight: 15 },
+    { value: 'indian', weight: 5 },
+    { value: 'black', weight: 4 },
+    { value: 'latino', weight: 3 },
+    { value: 'mixed', weight: 3 },
+  ],
+  AU: [
+    { value: 'white', weight: 75 },
+    { value: 'asian', weight: 15 },
+    { value: 'indian', weight: 4 },
+    { value: 'mixed', weight: 6 },
+  ],
+  NZ: [
+    { value: 'white', weight: 70 },
+    { value: 'asian', weight: 15 },
+    { value: 'mixed', weight: 15 },
+  ],
 };
 
 /**
- * Infer ethnicity from nationality code
+ * Select ethnicity from weighted options
  */
-export function inferEthnicityFromNationality(nationality: string): Ethnicity {
+function selectWeightedEthnicity(
+  options: WeightedOption<Ethnicity>[],
+  random: SeededRandom
+): Ethnicity {
+  return random.weightedPick(options);
+}
+
+/**
+ * Infer ethnicity from nationality code
+ * Uses weighted distribution for diverse countries
+ */
+export function inferEthnicityFromNationality(
+  nationality: string,
+  random?: SeededRandom
+): Ethnicity {
   const code = nationality.toUpperCase();
-  return NATIONALITY_ETHNICITY_MAP[code] ?? 'mixed';
+  const mapping = NATIONALITY_ETHNICITY_MAP[code];
+
+  if (!mapping) return 'mixed';
+
+  if (typeof mapping === 'string') {
+    return mapping;
+  }
+
+  // Weighted distribution - requires random instance
+  if (!random) {
+    // Fallback: return highest weight option
+    return mapping.reduce((a, b) => (a.weight > b.weight ? a : b)).value;
+  }
+
+  return selectWeightedEthnicity(mapping, random);
 }
 
 /**
  * Get all nationalities for a given ethnicity
+ * For weighted countries, includes if ethnicity is in the distribution
  */
 export function getNationalitiesForEthnicity(ethnicity: Ethnicity): string[] {
   return Object.entries(NATIONALITY_ETHNICITY_MAP)
-    .filter(([, eth]) => eth === ethnicity)
+    .filter(([, mapping]) => {
+      if (typeof mapping === 'string') {
+        return mapping === ethnicity;
+      }
+      return mapping.some((opt) => opt.value === ethnicity);
+    })
     .map(([code]) => code);
 }
 
