@@ -1,3 +1,6 @@
+// Main API
+export { Personna } from './factory';
+
 // Types
 export type {
   AgeGroup,
@@ -14,6 +17,10 @@ export type {
   UserName,
   GeneratedUser,
   LocaleData,
+  WeightedCity,
+  LocalePhone,
+  LocaleAddress,
+  LocaleEmail,
 } from './types';
 
 export {
@@ -25,43 +32,18 @@ export {
   DEFAULT_CONFIG,
 } from './types';
 
-// Random
+// Utilities (advanced usage)
 export { SeededRandom } from './random';
-
-// Distribution
 export { DistributionResolver } from './distribution';
-
-// Mappings
-export {
-  NATIONALITY_ETHNICITY_MAP,
-  inferEthnicityFromNationality,
-  getNationalitiesForEthnicity,
-  isKnownNationality,
-  getAdjacentAgeGroup,
-  getAgeRange,
-  getAgeGroupFromAge,
-} from './mappings';
-
-// Names
+export { inferEthnicityFromNationality, isKnownNationality } from './mappings';
+export { NameRegistry } from './names';
 export type { NameProvider } from './names';
-export { NameRegistry, generateName } from './names';
-
-// Locales
 export { LocaleRegistry } from './locales';
+export { AvatarPicker, buildAvatarUrl } from './avatars';
+export { UserGenerator } from './generators';
 
-// Avatars
-export { AvatarPicker, avatarPicker, buildAvatarUrl } from './avatars';
-
-// Generators
-export {
-  generateAge,
-  computeBirthDate,
-  computeBirthDateWithVariation,
-  generateEmail,
-  generateUsername,
-  generatePhone,
-  generateAddress,
-  UserGenerator,
-} from './generators';
-
+// Version
 export const VERSION = '0.1.0';
+
+// Auto-register built-in locales (side-effect)
+import './locales';

@@ -1,0 +1,1 @@
+export { Personna } from './personna';
