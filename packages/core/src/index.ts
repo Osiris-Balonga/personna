@@ -46,6 +46,9 @@ export {
 export type { NameProvider } from './names';
 export { NameRegistry, generateName } from './names';
 
+// Locales
+export { LocaleRegistry } from './locales';
+
 // Generators
 export {
   generateAge,
@@ -53,6 +56,8 @@ export {
   computeBirthDateWithVariation,
   generateEmail,
   generateUsername,
+  generatePhone,
+  generateAddress,
 } from './generators';
 
 export const VERSION = '0.1.0';
