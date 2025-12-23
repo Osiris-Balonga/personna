@@ -31,4 +31,15 @@ export { SeededRandom } from './random';
 // Distribution
 export { DistributionResolver } from './distribution';
 
+// Mappings
+export {
+  NATIONALITY_ETHNICITY_MAP,
+  inferEthnicityFromNationality,
+  getNationalitiesForEthnicity,
+  isKnownNationality,
+  getAdjacentAgeGroup,
+  getAgeRange,
+  getAgeGroupFromAge,
+} from './mappings';
+
 export const VERSION = '0.1.0';
