@@ -1,0 +1,36 @@
+# Dependencies
+node_modules
+
+# Build
+dist
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment
+.env
+.env.local
+
+# Coverage
+coverage
+
+# Claude Code (local only)
+.claude/
+claudedocs/
+tasks/
+.mcp.json
+CLAUDE.md
+**/CLAUDE.md
+
+# Changeset temp
+.changeset/*.md
+!.changeset/config.json
