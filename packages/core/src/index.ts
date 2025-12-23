@@ -61,6 +61,7 @@ export {
   generateUsername,
   generatePhone,
   generateAddress,
+  UserGenerator,
 } from './generators';
 
 export const VERSION = '0.1.0';
