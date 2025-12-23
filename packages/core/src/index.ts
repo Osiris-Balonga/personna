@@ -46,4 +46,11 @@ export {
 export type { NameProvider } from './names';
 export { NameRegistry, generateName } from './names';
 
+// Generators
+export {
+  generateAge,
+  computeBirthDate,
+  computeBirthDateWithVariation,
+} from './generators';
+
 export const VERSION = '0.1.0';
