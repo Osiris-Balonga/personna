@@ -42,4 +42,8 @@ export {
   getAgeGroupFromAge,
 } from './mappings';
 
+// Names
+export type { NameProvider } from './names';
+export { NameRegistry, generateName } from './names';
+
 export const VERSION = '0.1.0';
