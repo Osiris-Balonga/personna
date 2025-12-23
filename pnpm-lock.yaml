@@ -35,6 +35,12 @@ importers:
 
   packages/core: {}
 
+  packages/names-west-africa:
+    dependencies:
+      '@personna/core':
+        specifier: workspace:*
+        version: link:../core
+
 packages:
 
   '@babel/helper-string-parser@7.27.1':
