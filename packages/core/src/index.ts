@@ -51,6 +51,8 @@ export {
   generateAge,
   computeBirthDate,
   computeBirthDateWithVariation,
+  generateEmail,
+  generateUsername,
 } from './generators';
 
 export const VERSION = '0.1.0';
